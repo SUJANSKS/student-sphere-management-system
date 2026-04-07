@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+
+    <style>
+        body {
+            background: #0b0f19;
+            color: white;
+            font-family: Arial;
+        }
+
+        .box {
+            width: 400px;
+            margin: 100px auto;
+            padding: 20px;
+            background: #1a1f2e;
+            border-radius: 10px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background: #2a2f3e;
+            border: none;
+            color: white;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px;
+            width: 100%;
+            background: red;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>Register</h2>
+
+    <form action="/register" method="post">
+
+        Name:
+        <input type="text" name="name">
+
+        Email:
+        <input type="email" name="email">
+
+        Password:
+        <input type="password" name="password">
+
+        Role:
+        <select name="role">
+            <option value="STUDENT">Student</option>
+            <option value="RECRUITER">Recruiter</option>
+            <option value="ADMIN">Admin</option>
+        </select>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <p>Already have account? <a href="/login">Login</a></p>
+</div>
+
+</body>
+</html>

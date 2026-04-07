@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recruiter Dashboard</title>
+</head>
+<body>
+
+<h2>Recruiter Dashboard</h2>
+
+<a href="/job/new">Post New Job</a>
+
+<h3>All Jobs</h3>
+
+<ul>
+    <li th:each="job : ${jobs}">
+        <b th:text="${job.title}"></b> -
+        <span th:text="${job.company}"></span>
+    </li>
+</ul>
+
+</body>
+</html>
