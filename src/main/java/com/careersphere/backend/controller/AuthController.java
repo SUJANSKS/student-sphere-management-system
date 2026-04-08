@@ -1,7 +1,7 @@
 package com.careersphere.backend.controller;
 
-// GRASP: Controller – Handles authentication requests.
-// Pattern: MVC Controller for login and registration.
+// GRASP: Controller – Handles authentication requests
+// Pattern: MVC Controller
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.careersphere.backend.model.User;
 import com.careersphere.backend.service.UserService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class AuthController {
 
@@ -21,29 +23,35 @@ public class AuthController {
         this.service = service;
     }
 
-    // Show register page
+    //  Show register page
     @GetMapping("/register")
     public String showRegister() {
         return "register";
     }
 
-    // Save user
+    //  Handle register
     @PostMapping("/register")
     public String register(@ModelAttribute User user) {
+
+        if (user.getRole() != null) {
+            user.setRole(user.getRole().trim().toUpperCase());
+        }
+
         service.register(user);
         return "redirect:/login";
     }
 
-    // Show login page
+    //  Show login page
     @GetMapping("/login")
     public String showLogin() {
         return "login";
     }
 
-    // Handle login
+    //  Handle login
     @PostMapping("/login")
     public String login(@RequestParam String email,
-                        @RequestParam String password) {
+                        @RequestParam String password,
+                        HttpSession session) {
 
         User user = service.login(email, password);
 
@@ -51,13 +59,28 @@ public class AuthController {
             return "login";
         }
 
-        // Role-based redirect
-        if (user.getRole().equals("STUDENT")) {
+        //  Store session
+        session.setAttribute("user", user);
+
+        String role = user.getRole().trim().toUpperCase();
+
+        if (role.equals("STUDENT")) {
             return "redirect:/profile";
-        } else if (user.getRole().equals("RECRUITER")) {
+        } 
+        else if (role.equals("RECRUITER")) {
             return "redirect:/recruiter";
-        } else {
+        } 
+        else if (role.equals("ADMIN")) {
             return "redirect:/admin";
         }
+
+        return "login";
+    }
+
+    // Logout
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
     }
 }

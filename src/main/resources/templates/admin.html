@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>⚙️ Admin Dashboard</h1>
+
+    <!-- SUMMARY -->
+    <div class="card">
+        <p>Total Users: <span th:text="${totalUsers}"></span></p>
+        <p>Total Jobs: <span th:text="${totalJobs}"></span></p>
+        <p>Total Applications: <span th:text="${totalApplications}"></span></p>
+    </div>
+
+    <!-- USERS -->
+    <div class="card">
+        <h2>Users</h2>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+            </tr>
+
+            <tr th:each="u : ${users}">
+                <td th:text="${u.name}"></td>
+                <td th:text="${u.email}"></td>
+                <td th:text="${u.role}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- JOBS -->
+    <div class="card">
+        <h2>Jobs</h2>
+        <ul>
+            <li th:each="j : ${jobs}">
+                <span th:text="${j.title}"></span> -
+                <span th:text="${j.company}"></span>
+            </li>
+        </ul>
+    </div>
+
+    <!-- APPLICATIONS -->
+    <div class="card">
+        <h2>Applications</h2>
+        <table>
+            <tr>
+                <th>Student</th>
+                <th>Job</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+
+            <tr th:each="app : ${applications}">
+                <td th:text="${app.studentName}"></td>
+                <td th:text="${app.jobTitle}"></td>
+                <td th:text="${app.status}"></td>
+
+                <td>
+                    <form action="/admin/updateStatus" method="post">
+                        <input type="hidden" name="id" th:value="${app.id}">
+                        <button class="approve" name="status" value="APPROVED">Approve</button>
+                        <button class="reject" name="status" value="REJECTED">Reject</button>
+                    </form>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

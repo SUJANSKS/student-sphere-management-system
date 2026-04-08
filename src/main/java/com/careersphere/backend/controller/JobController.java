@@ -12,35 +12,70 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.careersphere.backend.model.Job;
+import com.careersphere.backend.model.User;
+import com.careersphere.backend.service.ApplicationService;
 import com.careersphere.backend.service.JobService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class JobController {
 
     private final JobService service;
+    private final ApplicationService applicationService;
 
-    public JobController(JobService service) {
+    public JobController(JobService service,
+                         ApplicationService applicationService) {
         this.service = service;
+        this.applicationService = applicationService;
     }
 
-    // Show recruiter dashboard
+    //  Recruiter Dashboard
     @GetMapping("/recruiter")
-    public String recruiterDashboard(Model model) {
+    public String recruiterDashboard(Model model, HttpSession session) {
+
+        //  Session check
+        User user = (User) session.getAttribute("user");
+
+        if (user == null || !user.getRole().equals("RECRUITER")) {
+            return "redirect:/login";
+        }
+
+        //  Load jobs
         List<Job> jobs = service.getAllJobs();
         model.addAttribute("jobs", jobs);
+
+        //  Load applications
+        model.addAttribute("apps", applicationService.getAll());
+
         return "recruiter";
     }
 
-    // Show job form
+    //  Show Job Form
     @GetMapping("/job/new")
-    public String jobForm() {
+    public String jobForm(HttpSession session) {
+
+        User user = (User) session.getAttribute("user");
+
+        if (user == null || !user.getRole().equals("RECRUITER")) {
+            return "redirect:/login";
+        }
+
         return "job_form";
     }
 
-    // Save job
+    //  Save Job
     @PostMapping("/job/save")
-    public String saveJob(@ModelAttribute Job job) {
+    public String saveJob(@ModelAttribute Job job, HttpSession session) {
+
+        User user = (User) session.getAttribute("user");
+
+        if (user == null || !user.getRole().equals("RECRUITER")) {
+            return "redirect:/login";
+        }
+
         service.saveJob(job);
+
         return "redirect:/recruiter";
     }
 }

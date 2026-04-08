@@ -2,28 +2,36 @@
 <html>
 <head>
     <title>Post Job</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
+
 <body>
 
-<h2>Post Job</h2>
+<div class="container">
 
-<form action="/job/save" method="post">
+    <div class="card">
+        <h2>Post Job</h2>
 
-    Title:
-    <input type="text" name="title"><br><br>
+        <form action="/job/save" method="post">
 
-    Company:
-    <input type="text" name="company"><br><br>
+            Title:
+            <input type="text" name="title">
 
-    Description:
-    <input type="text" name="description"><br><br>
+            Company:
+            <input type="text" name="company">
 
-    Eligibility:
-    <input type="text" name="eligibility"><br><br>
+            Description:
+            <input type="text" name="description">
 
-    <button type="submit">Post Job</button>
+            Eligibility:
+            <input type="text" name="eligibility">
 
-</form>
+            <button type="submit">Post Job</button>
+
+        </form>
+    </div>
+
+</div>
 
 </body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-    <title>Recruiter Dashboard</title>
+    <title>Applications</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 
@@ -9,29 +9,11 @@
 
 <div class="container">
 
-    <h2>🏢 Recruiter Dashboard</h2>
+    <h2>Applications</h2>
 
     <div class="card">
-        <a href="/job/new">+ Post New Job</a>
-    </div>
 
-    <!-- JOBS -->
-    <div class="card">
-        <h3>All Jobs</h3>
-
-        <ul>
-            <li th:each="job : ${jobs}">
-                <b th:text="${job.title}"></b> -
-                <span th:text="${job.company}"></span>
-            </li>
-        </ul>
-    </div>
-
-    <!--  APPLICATIONS -->
-    <div class="card">
-        <h3>Applications</h3>
-
-        <table>
+        <table border="1" width="100%">
             <tr>
                 <th>Student</th>
                 <th>Job</th>
@@ -43,13 +25,13 @@
                 <td th:text="${app.studentName}"></td>
                 <td th:text="${app.jobTitle}"></td>
                 <td th:text="${app.status}"></td>
-
                 <td>
                     <a th:href="@{/approve/{id}(id=${app.id})}">Approve</a>
                     <a th:href="@{/reject/{id}(id=${app.id})}">Reject</a>
                 </td>
             </tr>
         </table>
+
     </div>
 
 </div>

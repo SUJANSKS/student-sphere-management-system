@@ -1,7 +1,6 @@
 package com.careersphere.backend.service;
 
-// GRASP: Controller – Handles business logic for user operations.
-// Pattern: Service layer separating logic from controller.
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -28,5 +27,10 @@ public class UserService {
             return user;
         }
         return null;
+    }
+
+    // ✅ FIX: ADD THIS METHOD
+    public List<User> getAllUsers() {
+        return repository.findAll();
     }
 }
