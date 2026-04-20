@@ -26,9 +26,22 @@
                 <td th:text="${app.jobTitle}"></td>
                 <td th:text="${app.status}"></td>
                 <td>
-                    <a th:href="@{/approve/{id}(id=${app.id})}">Approve</a>
-                    <a th:href="@{/reject/{id}(id=${app.id})}">Reject</a>
-                </td>
+    <!-- If PENDING -->
+    <span th:if="${app.status == 'PENDING'}">
+        <a th:href="@{/approve/{id}(id=${app.id})}">Approve</a> |
+        <a th:href="@{/reject/{id}(id=${app.id})}">Reject</a>
+    </span>
+
+    <!-- If APPROVED -->
+    <span th:if="${app.status == 'APPROVED'}" style="color: green;">
+        ✔ Approved
+    </span>
+
+    <!-- If REJECTED -->
+    <span th:if="${app.status == 'REJECTED'}" style="color: red;">
+        ❌ Rejected
+    </span>
+</td>
             </tr>
         </table>
 

@@ -1,7 +1,5 @@
-package com.careersphere.backend.service;
 
-// GRASP: Controller – Handles application logic.
-// Pattern: Service layer.
+package com.careersphere.backend.service;
 
 import java.util.List;
 
@@ -20,12 +18,26 @@ public class ApplicationService {
     }
 
     public Application apply(Application app) {
-        app.setStatus("PENDING");
-        return repository.save(app);
+
+    boolean alreadyApplied =
+        repository.existsByStudentNameAndJobTitle(
+            app.getStudentName(),
+            app.getJobTitle()
+        );
+
+    if (alreadyApplied) {
+        return null; // ❗ stop duplicate
     }
 
+    app.setStatus("PENDING");
+    return repository.save(app);
+}
     public List<Application> getAll() {
         return repository.findAll();
+    }
+
+    public List<Application> getByStudentName(String name) {
+        return repository.findByStudentName(name);
     }
 
     public void updateStatus(Long id, String status) {
